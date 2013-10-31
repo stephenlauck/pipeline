@@ -17,8 +17,8 @@ template "/var/lib/jenkins/config.xml" do
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
 	variables({
-
-    })
+    :executors => node['jenkins']['server']['executors']
+  })
 end
 
 # install jenkins plugins

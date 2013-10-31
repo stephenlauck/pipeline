@@ -1,0 +1,1 @@
+default['jenkins']['server']['executors'] = 10
