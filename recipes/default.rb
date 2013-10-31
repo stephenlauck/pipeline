@@ -17,23 +17,20 @@ template "/var/lib/jenkins/config.xml" do
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
 	variables({
-
-    })
+    :executors => node['jenkins']['server']['executors']
+  })
 end
 
 # install jenkins plugins
-
-# %w(git URLSCM build-publisher).each do |plugin|
-#   jenkins_cli "install-plugin #{plugin}"
-#   jenkins_cli "safe-restart"
-# end
+%w( github ).each do |plugin|
+  jenkins_cli "install-plugin #{plugin}"
+  jenkins_cli "safe-restart"
+end
 
 # or
 
-# jenkins_plugin 'ant' do
-#   action :install
-#   version '1.2'
-# end
+# jenkins_plugin 'github'
+# restart jenkins
 
 # create job to pull down list of cookbooks
 # and
