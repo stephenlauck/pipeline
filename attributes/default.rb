@@ -1,1 +1,1 @@
-default['jenkins']['server']['executors'] = 10
+default['jenkins']['server']['executors'] = 2
