@@ -14,10 +14,10 @@ include_recipe "jenkins::server"
 node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
 
 # install jenkins plugins
-%w( github ).each do |plugin|
-  jenkins_cli "install-plugin #{plugin}"
-  jenkins_cli "safe-restart"
-end
+# %w( github ).each do |plugin|
+#   jenkins_cli "install-plugin #{plugin}"
+#   jenkins_cli "safe-restart"
+# end
 
 # manage jenkins config?
 
