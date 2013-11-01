@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = "pipeline-berkshelf"
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "Berkshelf-CentOS-6.3-x86_64-minimal"
+  # config.vm.box = "Berkshelf-CentOS-6.3-x86_64-minimal"
   config.vm.box = "opscode-ubuntu-10.04"
 
   # The url from where the 'config.vm.box' box will be fetched if it
