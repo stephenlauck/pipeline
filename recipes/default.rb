@@ -52,6 +52,9 @@ end
 # berkshelf config
 template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
   source "config.json.erb"
+  owner node['jenkins']['server']['user']
+  group node['jenkins']['server']['user']
+  mode 0644
   variables(
     :chef_server_url        => node['pipeline']['chef_server']['url'],
     :validation_client_name => "chef-validator",
