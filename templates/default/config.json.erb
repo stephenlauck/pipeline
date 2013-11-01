@@ -1,0 +1,31 @@
+{
+    "chef": {
+        "chef_server_url": "<%= @chef_server_url %>",
+        "validation_client_name": "<%= @validation_client_name %>",
+        "validation_key_path": "<%= @validation_key_path %>",
+        "client_key": "<%= @client_key_path %>",
+        "node_name": "<%= @chef_node_name %>"
+    },
+    "cookbook": {
+        "copyright": "YOUR_NAME",
+        "email": "YOUR_EMAIL",
+        "license": "reserved"
+    },
+    "allowed_licenses": [],
+    "raise_license_exception": false,
+    "vagrant": {
+        "vm": {
+            "box": "Berkshelf-CentOS-6.3-x86_64-minimal",
+            "box_url": "https://dl.dropbox.com/u/31081437/Berkshelf-CentOS-6.3-x86_64-minimal.box",
+            "forward_port": {},
+            "network": {
+                "bridged": false,
+                "hostonly": "33.33.33.10"
+            },
+            "provision": "chef_solo"
+        }
+    },
+    "ssl": {
+        "verify": true
+    }
+}
