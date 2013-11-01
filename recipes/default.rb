@@ -10,16 +10,8 @@
 include_recipe "apt"
 include_recipe "jenkins::server"
 
-# manage jenkins config
-template "/var/lib/jenkins/config.xml" do
-  source "config.xml.erb"
-  mode 0644
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-	variables({
-    :executors => node['jenkins']['server']['executors']
-  })
-end
+# set jenkins node home to server home
+node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
 
 # install jenkins plugins
 %w( github ).each do |plugin|
@@ -27,10 +19,7 @@ end
   jenkins_cli "safe-restart"
 end
 
-# or
-
-# jenkins_plugin 'github'
-# restart jenkins
+# manage jenkins config?
 
 # create job to pull down list of cookbooks
 # and
