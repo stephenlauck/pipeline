@@ -8,6 +8,7 @@
 #
 
 include_recipe "apt"
+include_recipe "git"
 include_recipe "jenkins::server"
 
 # set jenkins node home to server home
