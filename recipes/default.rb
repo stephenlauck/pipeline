@@ -9,14 +9,19 @@
 
 include_recipe "apt"
 include_recipe "git"
+
+# create /var/run/jenkins for 
+directory "/var/run/jenkins" do 
+  owner node['jenkins']['server']['user']
+  group node['jenkins']['server']['user']
+  mode 0644
+  recursive true
+end
+
 include_recipe "jenkins::server"
 
 # set jenkins node home to server home
 node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
-
-# jenkins home /var/lib/jenkins
-
-
 
 # install berkshelf gem
 gem_package "berkshelf" do
@@ -31,6 +36,9 @@ directory "#{node['jenkins']['server']['home']}/.berkshelf" do
   mode 0755
 end
 
+####################################################################
+# write out chef server keys via attribute set by wrapper cookbook #
+####################################################################
 # user.pem
 file "#{node['jenkins']['server']['home']}/.berkshelf/#{node['jenkins']['server']['user']}.pem" do
   content node['pipeline']['chef_server']['user_pem']
@@ -64,20 +72,34 @@ template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
   )
 end
 
-# write out berks config
-# write out chef keys
 
 
-
-
-# create berks config.json
-     # "chef_server_url": "<%= chef_server_url %>",
-     #    "validation_client_name": "<%= validation_client_name %>",
-     #    "validation_key_path": "<%= validation_key_path %>",
-     #    "client_key": "<%= client_key_path %>",
-     #    "node_name": "<%= chef_node_name %>"
-
+##############################################################
 # create job to pull down list of cookbooks
 # and
 # iterate over cookbooks and create job per cookbook in list
+##############################################################
+# git_branch = 'master'
+# job_name = "sigar-#{branch}-#{node[:os]}-#{node[:kernel][:machine]}"
+
+# job_config = File.join(node[:jenkins][:node][:home], "#{job_name}-config.xml")
+
+# jenkins_job job_name do
+#   action :nothing
+#   config job_config
+# end
+
+# template job_config do
+#   source    'sigar-jenkins-config.xml'
+#   variables :job_name => job_name, :branch => git_branch, :node => node[:fqdn]
+#   notifies  :update, resources(:jenkins_job => job_name), :immediately
+#   notifies  :build, resources(:jenkins_job => job_name), :immediately
+# end
+
+
+
+
+
+
+
 
