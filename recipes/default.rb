@@ -72,29 +72,33 @@ template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
   )
 end
 
-
-
 ##############################################################
 # create job to pull down list of cookbooks
 # and
 # iterate over cookbooks and create job per cookbook in list
 ##############################################################
-# git_branch = 'master'
-# job_name = "sigar-#{branch}-#{node[:os]}-#{node[:kernel][:machine]}"
+job_name = "berkshelf"
 
-# job_config = File.join(node[:jenkins][:node][:home], "#{job_name}-config.xml")
+job_config = File.join(node[:jenkins][:node][:home], "#{job_name}-config.xml")
 
-# jenkins_job job_name do
-#   action :nothing
-#   config job_config
-# end
+jenkins_job job_name do
+  action :nothing
+  config job_config
+end
 
-# template job_config do
-#   source    'sigar-jenkins-config.xml'
-#   variables :job_name => job_name, :branch => git_branch, :node => node[:fqdn]
-#   notifies  :update, resources(:jenkins_job => job_name), :immediately
-#   notifies  :build, resources(:jenkins_job => job_name), :immediately
-# end
+template job_config do
+  source    'berksfile-config.xml.erb'
+  owner node['jenkins']['server']['user']
+  group node['jenkins']['server']['user']
+  mode 0644
+  variables({
+    :github_url => node['pipeline']['github']['repo_url'],
+    :git_url => node['pipeline']['github']['clone_url'],
+    :branch => node['pipeline']['github']['branch']
+  })
+  notifies  :update, resources(:jenkins_job => job_name), :immediately
+  notifies  :build, resources(:jenkins_job => job_name), :immediately
+end
 
 
 
