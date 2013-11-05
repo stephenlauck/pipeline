@@ -43,6 +43,9 @@ gem_package "berkshelf" do
   version "2.0.10"
 end
 
+# add foodcritic
+include_recipe "foodcritic"
+
 # create berkshelf
 directory "#{node['jenkins']['server']['home']}/.berkshelf" do
   owner node['jenkins']['server']['user']
