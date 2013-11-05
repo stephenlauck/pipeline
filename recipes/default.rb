@@ -44,7 +44,7 @@ gem_package "berkshelf" do
 end
 
 # add foodcritic
-include_recipe "foodcritic"
+include_recipe "pipeline::foodcritic"
 
 # create berkshelf
 directory "#{node['jenkins']['server']['home']}/.berkshelf" do
