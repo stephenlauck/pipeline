@@ -115,7 +115,15 @@ template job_config do
 end
 
 
+# /var/lib/jenkins/jobs/berkshelf/workspace
+berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{job_name}/workspace/Berksfile")
 
+# cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
+berksfile.each_line do |line|
+  /^cookbook '([\w\-_]+)'/ =~ line
+    Chef::Log.info($1)
+  end
+end
 
 
 
