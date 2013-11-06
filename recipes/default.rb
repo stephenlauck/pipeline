@@ -123,7 +123,7 @@ begin
 
   # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
   berksfile.each_line do |line|
-    if line =~ /cookbook '(.*)',\s+git:\s+'(.*sml-cookbooks.*)'/
+    if line =~ /cookbook '(.*)',\s+git:\s+'(.*)'/
       cookbook = $1
       cookbook_url = $2
 
