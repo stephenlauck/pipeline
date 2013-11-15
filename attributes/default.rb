@@ -8,3 +8,11 @@ default['pipeline']['github']['repo_url'] = "GITHUB_URL_TO_BERKSFILE"
 default['pipeline']['github']['clone_url'] = "GIT_CLONE_URL_FOR_BERKSFILE"
 default['pipeline']['github']['branch'] = "*/master"
 
+
+## check naming of these
+default['pipeline']['build']['commands'] = [
+  'foodcritic -f correctness .', 
+  'berks upload -c /var/lib/jenkins/.berkshelf/config.json',
+  'berks apply dev01 -c /var/lib/jenkins/.berkshelf/config.json'
+] 
+
