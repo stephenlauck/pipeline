@@ -72,8 +72,8 @@ Vagrant.configure("2") do |config|
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
 
-  # config.omnibus.chef_version = :latest
-  config.omnibus.chef_version = "10.24.0"
+  config.omnibus.chef_version = :latest
+  #config.omnibus.chef_version = "10.24.0"
   
   config.vm.provision :chef_solo do |chef|
     chef.json = { }

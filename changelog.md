@@ -3,3 +3,5 @@
 * broke out recipes from default into berkshelf, jenkins, jobs
 
 * added build command attr in order to step thru cookbook job -- may belong in wrapper
+
+* added LWRP for creating chef\_server configuration ala berks config

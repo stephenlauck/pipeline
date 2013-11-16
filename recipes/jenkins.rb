@@ -1,6 +1,6 @@
 include_recipe "apt"
 
-# create /var/run/jenkins for 
+# create /var/run/jenkins because of https://issues.jenkins-ci.org/browse/JENKINS-20407 
 directory "/var/run/jenkins" do 
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']

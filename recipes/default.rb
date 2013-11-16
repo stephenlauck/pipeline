@@ -21,13 +21,10 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
-include_recipe "git"
-
 %w[
   pipeline::jenkins
-  pipeline::foodcritic
   pipeline::berkshelf
+  pipeline::foodcritic
   pipeline::jobs
 ].each { |recipe_name| include_recipe recipe_name }
 
