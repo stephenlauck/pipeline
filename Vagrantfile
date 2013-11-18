@@ -6,7 +6,9 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
+  # requires vagrant plugin vagrant-cachier
   config.cache.auto_detect = true
+  
   config.vm.hostname = "pipeline-berkshelf"
 
   # Every Vagrant virtual environment requires a box to build off of.

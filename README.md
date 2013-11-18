@@ -3,6 +3,9 @@ check changelog for details
 
 # Requirements
 
+#### vagrant-cachier
+`vagrant plugin install vagrant-cachier`
+
 # Usage
 
 Attributes
