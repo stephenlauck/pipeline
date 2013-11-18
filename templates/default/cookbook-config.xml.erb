@@ -33,8 +33,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-        foodcritic -f correctness .
-        berks upload -c /var/lib/jenkins/.berkshelf/config.json
+        /opt/chef/embedded/bin/foodcritic -f correctness .
+        /opt/chef/embedded/bin/berks upload -c /var/lib/jenkins/.berkshelf/config.json
       </command>
     </hudson.tasks.Shell>
   </builders>
