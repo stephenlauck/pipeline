@@ -1,4 +1,25 @@
-
+#
+# Author:: Stephen Lauck <lauck@opscode.com>
+# Author:: Mauricio Silva <msilva@exacttarget.com>
+#
+# Cookbook Name:: pipeline
+# Recipe:: default
+#
+# Copyright 2013, Exact Target
+# Copyright 2013, Opscode, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
 ##############################################################
 # create job to pull down list of cookbooks
@@ -24,9 +45,9 @@ template job_config do
     :github_url => node['pipeline']['github']['repo_url'],
     :git_url => node['pipeline']['github']['clone_url'],
     :branch => node['pipeline']['github']['branch']
- })
-  notifies  :update, resources(:jenkins_job => job_name)#, :immediately
-  # notifies  :build, resources(:jenkins_job => job_name)#, :immediately
+  })
+  notifies  :update, resources(:jenkins_job => job_name), :immediately
+  notifies  :build, resources(:jenkins_job => job_name), :immediately
 end
 
   begin
