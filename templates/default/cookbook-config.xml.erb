@@ -31,14 +31,12 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-  <% @build_commands.each do |cmd| -%>
     <hudson.tasks.Shell>
       <command>
         foodcritic -f correctness .
         berks upload -c /var/lib/jenkins/.berkshelf/config.json
       </command>
     </hudson.tasks.Shell>
-  <% end -%>
   </builders>
   <publishers/>
   <buildWrappers/>
