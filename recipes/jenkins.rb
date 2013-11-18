@@ -13,4 +13,10 @@ include_recipe "jenkins::server"
 # set jenkins node home to server home
 node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
 
-
+# override fingerprint rsa for convergence? Security ok?
+file "#{node['jenkins']['server']['home']}/.ssh/config" do 
+ content <<-EOD
+   Host github.com
+       StrictHostKeyChecking no 
+ EOD
+end
