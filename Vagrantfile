@@ -2,6 +2,14 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
+  ## require needed plugins
+  %w[
+    vagrant-berkshelf
+    vagrant-omnibus
+    vagrant-cachier
+  ].each { | plugin |
+    Vagrant.require_plugin plugin
+  }
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
