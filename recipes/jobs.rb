@@ -26,7 +26,7 @@ template job_config do
     :branch => node['pipeline']['github']['branch']
  })
   notifies  :update, resources(:jenkins_job => job_name)#, :immediately
-  notifies  :build, resources(:jenkins_job => job_name)#, :immediately
+  # notifies  :build, resources(:jenkins_job => job_name)#, :immediately
 end
 
   begin
@@ -60,7 +60,8 @@ end
             :build_commands => node['pipeline']['build']['commands']
           })
           notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-          notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
+          # don't build by default if lots of cookbooks
+          # notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
         end
       end
     end
