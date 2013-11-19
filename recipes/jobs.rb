@@ -77,11 +77,9 @@ end
           mode 0644
           variables({
             :git_url => cookbook_url,
-            :branch => '*/master',
-            :build_commands => node['pipeline']['build']['commands']
+            :branch => '*/master'
           })
           notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-          # don't build by default if lots of cookbooks
           # notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
         end
       end
