@@ -39,7 +39,7 @@ end
 ####################################################################
 # user.pem
 file "#{node['jenkins']['server']['home']}/.berkshelf/#{node['jenkins']['server']['user']}.pem" do
-  content node['pipeline']['chef_server']['user_pem']
+  content node['pipeline']['chef_server']['client_key']
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
   mode 0644
@@ -48,7 +48,7 @@ end
 
 # validation.pem
 file "#{node['jenkins']['server']['home']}/.berkshelf/validation.pem" do
-  content node['pipeline']['chef_server']['validation_pem']
+  content node['pipeline']['chef_server']['validation_key']
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
   mode 0644
@@ -63,7 +63,7 @@ template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
   mode 0644
   variables(
     :chef_server_url        => node['pipeline']['chef_server']['url'],
-    :validation_client_name => "chef-validator",
+    :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
     :validation_key_path    => "#{node['jenkins']['server']['home']}/.berkshelf/validation.pem",
     :client_key_path        => "#{node['jenkins']['server']['home']}/.berkshelf/#{node['jenkins']['server']['user']}.pem",
     :chef_node_name         => node['jenkins']['server']['user']
