@@ -10,8 +10,8 @@ cache_type               'BasicFile'
 cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
 cookbook_path            ["#{current_dir}/../cookbooks"]
 
-<% @providers.each do |provider| %>
-  <% provider.each do |key, val| %>
-    knife[:<%= key %>] = "<%= val %>"
-  <% end %>
-<% end %>
+<%- @providers.each do |provider| %>
+<%- provider.each do |key, val| %>
+knife[:<%= key %>] = "<%= val %>"
+<%- end %>
+<%- end %>
