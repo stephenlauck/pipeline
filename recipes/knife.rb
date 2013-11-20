@@ -5,6 +5,12 @@
 # 3 - abort if new chef-server information
 #
 #
+# create berkshelf
+directory "#{node['jenkins']['server']['home']}/.chef" do
+  owner node['jenkins']['server']['user']
+  group node['jenkins']['server']['user']
+  mode 0755
+end
 
 template "#{node['jenkins']['server']['home']}/.chef/knife.rb" do
   source "knife.rb.erb"
