@@ -11,3 +11,10 @@ default['pipeline']['github']['branch']                      = "*/master"
 
 
 default['pipeline']['chef-zero']                             = false
+
+default['pipeline']['knife']['providers'] = {
+  "ec2" => {
+      "aws_access_key_id" => "YOUR_AWS_KEY",
+      "aws_secret_access_key" => "YOUR_AWS_SECRET"
+    }
+}
