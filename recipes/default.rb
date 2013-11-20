@@ -21,12 +21,15 @@
 # limitations under the License.
 #
 
+include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
+
 %w[
   pipeline::jenkins
   pipeline::berkshelf
   pipeline::foodcritic
   pipeline::jobs
 ].each { |recipe_name| include_recipe recipe_name }
+
 
 
 
