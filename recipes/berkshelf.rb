@@ -64,7 +64,7 @@ template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
   variables(
     :chef_server_url        => node['pipeline']['chef_server']['url'],
     :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
-    :validation_key_path    => "#{node['jenkins']['server']['home']}/.berkshelf/validation.pem",
+    :validation_key_path    => "#{node['jenkins']['server']['home']}/.berkshelf/#{node['pipeline']['chef_server']['validation_client_name']}.pem",
     :client_key_path        => "#{node['jenkins']['server']['home']}/.berkshelf/#{node['jenkins']['server']['user']}.pem",
     :chef_node_name         => node['jenkins']['server']['user']
   )
