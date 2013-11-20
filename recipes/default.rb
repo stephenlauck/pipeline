@@ -28,7 +28,7 @@ include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
   pipeline::berkshelf
   pipeline::knife
   pipeline::foodcritic
-  pipeline::jobs
+  pipeline::spiceweasel
 ].each { |recipe_name| include_recipe recipe_name }
 
 
