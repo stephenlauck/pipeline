@@ -44,8 +44,11 @@ template "#{node['jenkins']['server']['home']}/.chef/knife.rb" do
     :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
     :validation_key_path    => "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['validation_client_name']}.pem",
     :client_key_path        => "#{node['jenkins']['server']['home']}/.chef/#{node['jenkins']['server']['user']}.pem",
-    :chef_node_name         => node['jenkins']['server']['user']
+    :chef_node_name         => node['jenkins']['server']['user'],
+    :providers              => node['pipeline']['knife']['providers']
   )
 end
+
+
 
 
