@@ -12,7 +12,10 @@ default['pipeline']['github']['branch']                      = "*/master"
 
 default['pipeline']['chef-zero']                             = false
 
-default['pipeline']['knife']['providers'] = [
+
+default['pipeline']['knife']['plugins']                      = %w[ knife-ec2 ]
+
+default['pipeline']['knife']['providers']                    = [
   { "EXAMPLE_KEY" => "YOUR_KEY" },
   { "EXAMPLE_SECRET" => "YOUR_AWS_SECRET" }
 ]

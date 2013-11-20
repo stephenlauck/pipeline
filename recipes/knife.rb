@@ -5,13 +5,20 @@
 # 3 - abort if new chef-server information
 #
 #
+
+# added knife plugins
+node['pipeline']['knife']['plugins'].each { | plugin |
+  gem_package plugin do
+    gem_binary("/opt/chef/embedded/bin/gem")
+  end
+}
+
 # create berkshelf
 directory "#{node['jenkins']['server']['home']}/.chef" do
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
   mode 0755
 end
-
 
 ####################################################################
 # write out chef server keys via attribute set by wrapper cookbook #
