@@ -24,7 +24,7 @@ template job_config do
     :branch => node['pipeline']['spiceweasel']['branch'],
     :yml_file => node['pipeline']['spiceweasel']['yml_file']
   })
-  notifies :update, "jenkins_job[#{job_name}]", :immediately
-  notifies :build, "jenkins_job[#{job_name}]", :immediately
+  notifies  :update, resources(:jenkins_job => job_name), :immediately
+  notifies  :build, resources(:jenkins_job => job_name), :immediately
 end
 
