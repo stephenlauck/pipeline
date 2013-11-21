@@ -95,8 +95,8 @@ template job_config do
     :git_url => node['pipeline']['berkshelf']['clone_url'],
     :branch => node['pipeline']['berkshelf']['branch']
   })
-  notifies  :update, resources(:jenkins_job => job_name), :immediately
-  notifies  :build, resources(:jenkins_job => job_name), :immediately
+  notifies :update, "jenkins[#{job_name}]", :immediately
+  notifies :build, "jenkins[#{job_name}]", :immediately
 end
 
   begin
@@ -129,8 +129,8 @@ end
             :git_url => cookbook_url,
             :branch => '*/master'
           })
-          notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-          # notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
+          notifies :update, "jenkins[#{cookbook_job}]", :immediately
+          #   notifies :build, "jenkins[#{cookbook_job}]", :immediately
         end
       end
     end

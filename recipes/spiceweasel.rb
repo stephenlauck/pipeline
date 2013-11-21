@@ -23,7 +23,7 @@ template job_config do
     :git_url => node['pipeline']['spiceweasel']['clone_url'],
     :branch => node['pipeline']['spiceweasel']['branch']
   })
-  notifies  :update, resources(:jenkins_job => job_name), :immediately
-  notifies  :build, resources(:jenkins_job => job_name), :immediately
+  notifies :update, "jenkins_job[#{job_name}]", :immediately
+  notifies :build, "jenkins_job[#{job_name}]", :immediately
 end
 
