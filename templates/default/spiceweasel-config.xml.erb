@@ -37,7 +37,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>/opt/chef/embedded/bin/spiceweasel</command>
+      <command>/opt/chef/embedded/bin/spiceweasel <%= @yml_file %> -e </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

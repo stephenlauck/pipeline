@@ -5,13 +5,15 @@ default['pipeline']['chef_server']['client_key']             = "USER_PEM"
 default['pipeline']['chef_server']['validation_client_name'] = "VALIDATOR_NAME"
 default['pipeline']['chef_server']['validation_key']         = "VALIDATION_PEM"
 
-default['pipeline']['berkshelf']['repo_url']                    = "GITHUB_URL_TO_BERKSFILE"
-default['pipeline']['berkshelf']['clone_url']                   = "GIT_CLONE_URL_FOR_BERKSFILE"
-default['pipeline']['berkshelf']['branch']                      = "*/master"
+default['pipeline']['berkshelf']['repo_url']                  = "GITHUB_URL_TO_BERKSFILE"
+default['pipeline']['berkshelf']['clone_url']                 = "GIT_CLONE_URL_FOR_BERKSFILE"
+default['pipeline']['berkshelf']['branch']                    = "*/master"
 
-default['pipeline']['spiceweasel']['repo_url']                    = "GITHUB_URL_TO_SPICEWEASEL"
-default['pipeline']['spiceweasel']['clone_url']                   = "GIT_CLONE_URL_FOR_SPICEWEASEL"
-default['pipeline']['spiceweasel']['branch']                      = "*/master"
+default['pipeline']['spiceweasel']['repo_url']                = "GITHUB_URL_TO_SPICEWEASEL"
+default['pipeline']['spiceweasel']['clone_url']               = "GIT_CLONE_URL_FOR_SPICEWEASEL"
+default['pipeline']['spiceweasel']['branch']                  = "*/master"
+default['pipeline']['spiceweasel']['yml_file']                = "infrastructure.yml"
+
 
 
 
