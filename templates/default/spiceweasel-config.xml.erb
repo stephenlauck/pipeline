@@ -37,7 +37,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>/opt/chef/embedded/bin/spiceweasel -e --novalidation <%= @yml_file %></command>
+      <command>/opt/chef/embedded/bin/spiceweasel -c /var/lib/jenkins/.chef/knife.rb -e --novalidation <%= @yml_file %></command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
