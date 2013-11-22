@@ -130,7 +130,7 @@ end
             :branch => '*/master'
           })
           notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-        # notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
+          notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
         end
       end
     end
