@@ -21,6 +21,10 @@
 # limitations under the License.
 #
 
+include_recipe "apt"
+include_recipe "git"
+include_recipe 'build-essential'
+
 include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
 
 %w[

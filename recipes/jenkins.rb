@@ -21,8 +21,7 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
-include_recipe "git"
+
 
 # create /var/run/jenkins because of https://issues.jenkins-ci.org/browse/JENKINS-20407 
 directory "/var/run/jenkins" do 
