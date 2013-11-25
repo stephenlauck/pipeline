@@ -21,6 +21,8 @@
 # limitations under the License.
 #
 
+include_recipe 'build-essential'
+
 gem_package "berkshelf" do
   gem_binary("/opt/chef/embedded/bin/gem")
   version "2.0.10"
