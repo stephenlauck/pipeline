@@ -24,5 +24,6 @@ default['pipeline']['knife']['plugins']                      = %w[ knife-ec2 ]
 
 default['pipeline']['knife']['providers']                    = [
   { "EXAMPLE_KEY" => "YOUR_KEY" },
+  { "EXAMPLE_KEY_ID" => "YOUR_KEY_ID" },
   { "EXAMPLE_SECRET" => "YOUR_AWS_SECRET" }
 ]
