@@ -15,7 +15,7 @@ default['pipeline']['spiceweasel']['branch']                  = "*/master"
 default['pipeline']['spiceweasel']['yml_file']                = "infrastructure.yml"
 
 
-
+default['build-essential']['compiletime'] = true
 
 default['pipeline']['chef-zero']                             = false
 
