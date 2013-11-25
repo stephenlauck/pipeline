@@ -20,7 +20,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe 'build-essential'
 
 include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
 
@@ -29,7 +28,6 @@ include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
   pipeline::berkshelf
   pipeline::knife
   pipeline::foodcritic
-  pipeline::spiceweasel
 ].each { |recipe_name| include_recipe recipe_name }
 
 
