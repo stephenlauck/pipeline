@@ -14,9 +14,6 @@ default['pipeline']['spiceweasel']['clone_url']               = "GIT_CLONE_URL_F
 default['pipeline']['spiceweasel']['branch']                  = "*/master"
 default['pipeline']['spiceweasel']['yml_file']                = "infrastructure.yml"
 
-
-default['build-essential']['compiletime'] = true
-
 default['pipeline']['chef-zero']                             = false
 
 
