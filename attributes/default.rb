@@ -1,4 +1,5 @@
 default['jenkins']['server']['plugins']                      = %w{scm-api git git-client github-api github}
+default['jenkins']['http_proxy']['server_auth_method']       = 'basic'
 
 default['pipeline']['chef_server']['url']                    = "CHEF_SERVER_URL"
 default['pipeline']['chef_server']['client_key']             = "USER_PEM"
