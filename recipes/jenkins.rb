@@ -32,6 +32,7 @@ directory "/var/run/jenkins" do
 end
 
 include_recipe "jenkins::server"
+include_recipe "jenkins::proxy"
 
 # set jenkins node home to server home
 node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
