@@ -3,7 +3,7 @@
 # Author:: Mauricio Silva <msilva@exacttarget.com>
 #
 # Cookbook Name:: pipeline
-# Recipe:: default
+# Recipe:: users
 #
 # Copyright 2013, Exact Target
 # Copyright 2013, Opscode, Inc.
@@ -19,26 +19,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-include_recipe "apt"
-include_recipe "git"
-include_recipe 'build-essential'
+include_recipe "users"
 
-include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
-
-%w[
-  pipeline::jenkins
-  pipeline::berkshelf
-  pipeline::knife
-  pipeline::foodcritic
-  pipeline::users
-].each { |recipe_name| include_recipe recipe_name }
-
-
-
-
-
-
-
-
+node['pipeline']['groups'].each { | group |
+  users_manage group do
+    data_bag "users"
+    group_id 3500
+    action [ :create ]
+  end
+}
