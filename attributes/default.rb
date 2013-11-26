@@ -25,3 +25,5 @@ default['pipeline']['knife']['providers']                    = [
   { "EXAMPLE_KEY_ID" => "YOUR_KEY_ID" },
   { "EXAMPLE_SECRET" => "YOUR_AWS_SECRET" }
 ]
+
+default['pipeline']['groups']                                = %w[deployer]
