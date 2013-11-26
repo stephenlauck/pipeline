@@ -34,6 +34,10 @@ end
 include_recipe "jenkins::server"
 include_recipe "jenkins::proxy"
 
+nginx_site 'default.conf' do
+  enable true
+end
+
 # set jenkins node home to server home
 node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
 
