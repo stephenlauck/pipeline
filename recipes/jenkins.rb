@@ -36,7 +36,7 @@ include_recipe "jenkins::proxy"
 
 sudo 'jenkins' do
   user      "jenkins"
-  commands  ['chef-client']
+  commands  ['/usr/bin/chef-client']
 end
 
 nginx_site 'default' do
