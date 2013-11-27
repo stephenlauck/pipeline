@@ -34,6 +34,12 @@ end
 include_recipe "jenkins::server"
 include_recipe "jenkins::proxy"
 
+sudo 'jenkins' do
+  user      "jenkins"
+  runas     'jenkins'
+  commands  ['chef-client']
+end
+
 nginx_site 'default' do
   enable false
 end

@@ -10,3 +10,4 @@ depends 'apt'
 depends 'build-essential'
 depends "git"
 depends "jenkins"
+depends 'sudo'
