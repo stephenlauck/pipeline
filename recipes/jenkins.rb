@@ -35,8 +35,7 @@ include_recipe "jenkins::server"
 include_recipe "jenkins::proxy"
 
 sudo 'jenkins' do
-  user      "%jenkins"
-  runas     'root'
+  user      "jenkins"
   commands  ['chef-client']
 end
 
