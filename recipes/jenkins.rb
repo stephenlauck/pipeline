@@ -36,6 +36,7 @@ include_recipe "jenkins::proxy"
 
 sudo 'jenkins' do
   user      "jenkins"
+  nopasswd  true
   commands  ['/usr/bin/chef-client']
 end
 
