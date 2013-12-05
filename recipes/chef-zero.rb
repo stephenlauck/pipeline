@@ -15,7 +15,7 @@ end
 
 template '/etc/init/chef-zero.conf' do
   source 'chef-zero.conf.erb'
-  variables({chef_embed_path: '/opt/chef/embedded/bin', chef_server_port: '8889'})
+  variables({chef_embed_path: '/opt/chef/bin', chef_server_port: '8889'})
   owner 'root'
   group 'root'
 end
