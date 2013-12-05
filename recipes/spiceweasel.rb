@@ -4,16 +4,16 @@ gem_package 'spiceweasel' do
 end
 
 
-job_name = 'spiceweasel'
+spiceweasel_job_name = 'spiceweasel'
 
-job_config = File.join(node['jenkins']['node']['home'], "#{job_name}-config.xml")
+spiceweasel_job_config = File.join(node['jenkins']['node']['home'], "#{spiceweasel_job_name}-config.xml")
 
-jenkins_job job_name do
+jenkins_job spiceweasel_job_name do
   action :nothing
-  config job_config
+  config spiceweasel_job_config
 end
 
-template job_config do
+template spiceweasel_job_config do
   source    'spiceweasel-config.xml.erb'
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
@@ -24,7 +24,7 @@ template job_config do
     :branch => node['pipeline']['spiceweasel']['branch'],
     :yml_file => node['pipeline']['spiceweasel']['yml_file']
   })
-  notifies  :update, resources(:jenkins_job => job_name), :immediately
-  notifies  :build, resources(:jenkins_job => job_name), :immediately
+  notifies  :update, resources(:jenkins_job => spiceweasel_job_name), :immediately
+  notifies  :build, resources(:jenkins_job => spiceweasel_job_name), :immediately
 end
 
