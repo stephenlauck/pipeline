@@ -76,16 +76,16 @@ end
 # iterate over cookbooks and create job per cookbook in list
 ##############################################################
 
-job_name = "berkshelf"
+berkshelf_job_name = "berkshelf"
 
-job_config = File.join(node['jenkins']['node']['home'], "#{job_name}-config.xml")
+berkshelf_job_config = File.join(node['jenkins']['node']['home'], "#{berkshelf_job_name}-config.xml")
 
-jenkins_job job_name do
+jenkins_job berkshelf_job_name do
   action :nothing
-  config job_config
+  config berkshelf_job_config
 end
 
-template job_config do
+template berkshelf_job_config do
   source    'berksfile-config.xml.erb'
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
@@ -95,13 +95,13 @@ template job_config do
     :git_url => node['pipeline']['berkshelf']['clone_url'],
     :branch => node['pipeline']['berkshelf']['branch']
   })
-  notifies  :build, resources(:jenkins_job => job_name), :immediately
-  notifies  :update, resources(:jenkins_job => job_name), :immediately
+  notifies  :build, resources(:jenkins_job => berkshelf_job_name), :immediately
+  notifies  :update, resources(:jenkins_job => berkshelf_job_name), :immediately
 end
 
   begin
     # /var/lib/jenkins/jobs/berkshelf/workspace
-    berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{job_name}/workspace/Berksfile")
+    berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
 
     # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
     berksfile.each_line do |line|
