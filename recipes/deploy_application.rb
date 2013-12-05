@@ -1,16 +1,4 @@
 
-#
-#  
-#  git url
-#
-#  test command
-#
-#  search string
-#
-#  environment
-#
-#
-
 env = node.chef_environment
 
 applications = data_bag('applications')
