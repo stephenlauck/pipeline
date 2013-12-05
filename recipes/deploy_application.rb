@@ -17,7 +17,7 @@ applications.each do |app|
   end
 
   template job_config do
-    source    'application_job-config.xml.erb'
+    source    'deploy-application-config.xml.erb'
     owner node['jenkins']['server']['user']
     group node['jenkins']['server']['user']
     mode 0644
@@ -25,9 +25,9 @@ applications.each do |app|
       :name => deploy_application['id'],
       :repo_url => deploy_application['repo_url'],
       :clone_url => deploy_application['clone_url'],
-      :test_command=> deploy_application['test_command'],
+      :test_command => deploy_application['test_command'],
       :knife_search_string=> deploy_application['knife_search_string'],
-      :branch => deploy_appliation['branch'],
+      :branch => deploy_application['branch'],
       :environment=> env
     })
     notifies  :update, resources(:jenkins_job => job_name), :immediately

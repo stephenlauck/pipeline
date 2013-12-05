@@ -39,7 +39,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command><%= @test_command %></command>
-      <command><%= knife search node @knife_search_string %></command>
+      <command> knife search node <%= @knife_search_string %></command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
