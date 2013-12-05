@@ -8,5 +8,5 @@ script
   exec >> /var/log/$UPSTART_JOB.log 2>&1
   set -x
   # start chef-zero service
-  exec sudo -i -u root <%= @chef_embed_path %>/ruby <%= @chef_embed_path %>/chef-zero -p <%= @chef_server_port %> -l info
+  exec sudo -i -u root <%= @chef_embed_path %>/chef-zero -p <%= @chef_server_port %> -l info
 end script
