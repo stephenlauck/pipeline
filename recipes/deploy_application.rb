@@ -1,37 +1,39 @@
 
 env = node.chef_environment
 
-applications = data_bag('applications')
 
-applications.each do |app|
+search(:applications, "*:*") do |application|
 
-  deploy_application = data_bag_item('applications', app)
+  application_job_name = application.id
 
-  job_name = deploy_application[:id]
+  Chef::Log.info "creating application_deploy job for #{application_job_name}"
 
-  job_config = File.join(node['jenkins']['node']['home'], "app-#{job_name}-config.xml")
+  application_job_config = File.join(node['jenkins']['node']['home'], "app-#{application_job_name}}-config.xml")
 
-  jenkins_job job_name do
+  jenkins_job application_job_name do
     action :nothing
-    config job_config
+    config application_job_config
   end
 
-  template job_config do
+  template application_job_config do
     source    'deploy-application-config.xml.erb'
     owner node['jenkins']['server']['user']
     group node['jenkins']['server']['user']
     mode 0644
     variables({
-      :name => deploy_application['id'],
-      :repo_url => deploy_application['repo_url'],
-      :clone_url => deploy_application['clone_url'],
-      :test_command => deploy_application['test_command'],
-      :knife_search_string=> deploy_application['knife_search_string'],
-      :branch => deploy_application['branch'],
+      :name => application_job_name,
+      :repo_url => application['repo_url'],
+      :clone_url => application['clone_url'],
+      :test_command => application['test_command'],
+      :knife_search_string=> application['knife_search_string'],
+      :branch => application['branch'],
       :environment=> env
     })
-    notifies  :update, resources(:jenkins_job => job_name), :immediately
-    notifies  :build, resources(:jenkins_job => job_name), :immediately
+    notifies  :update, resources(:jenkins_job => application_job_name), :immediately
+    notifies  :build, resources(:jenkins_job => application_job_name), :immediately
   end
 
 end
+
+
+
