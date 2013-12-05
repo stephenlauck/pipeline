@@ -32,7 +32,7 @@ include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
   pipeline::berkshelf
   pipeline::knife
   pipeline::foodcritic
-  pipeline::application_deploy
+  pipeline::deploy_application
 ].each { |recipe_name| include_recipe recipe_name }
 
 
