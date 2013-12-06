@@ -8,7 +8,7 @@ applications.each do |app|
 
   Chef::Log.info "creating application_deploy job for #{application_job_name}"
 
-  application_job_config = File.join(node['jenkins']['node']['home'], "app-#{application_job_name}-config.xml")
+  application_job_config = File.join(node['jenkins']['node']['home'], "#{application_job_name}-config.xml")
 
   jenkins_job application_job_name do
     action :nothing
