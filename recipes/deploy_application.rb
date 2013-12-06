@@ -2,9 +2,9 @@ env = node.chef_environment
 
 applications = search(:applications, "*:*") 
 
-applications.each do |application|
+applications.each do |app|
 
-  application_job_name = application.id
+  application_job_name = app['id']
 
   Chef::Log.info "creating application_deploy job for #{application_job_name}"
 
@@ -22,11 +22,11 @@ applications.each do |application|
     mode 0644
     variables({
       # :name => application_job_name,
-      :repo_url => application['repo_url'],
-      :clone_url => application['clone_url'],
-      :test_command => application['test_command'],
-      :knife_search_string=> application['knife_search_string'],
-      :branch => application['branch']
+      :github_url => app['repo_url'],
+      :git_url => app['clone_url'],
+      :test_command => app['test_command'],
+      # :knife_search_string=> app['knife_search_string'],
+      :branch => app['branch']
       # :environment=> env
     })
     notifies  :update, resources(:jenkins_job => application_job_name), :immediately
