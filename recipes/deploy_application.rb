@@ -26,7 +26,7 @@ applications.each do |application|
     group node['jenkins']['server']['user']
     mode 0644
     variables({
-      :name => application_job_name,
+      # :name => application_job_name,
       :repo_url => application['repo_url'],
       :clone_url => application['clone_url'],
       :test_command => application['test_command'],
