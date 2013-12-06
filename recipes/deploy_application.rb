@@ -31,6 +31,8 @@ applications.each do |app|
     })
     notifies  :update, resources(:jenkins_job => application_job_name), :immediately
     notifies  :build, resources(:jenkins_job => application_job_name), :immediately
+    retries 1
+    retry_delay 5
   end
 
 end
