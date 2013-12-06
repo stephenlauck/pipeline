@@ -13,6 +13,8 @@ applications.each do |app|
   jenkins_job application_job_name do
     action :nothing
     config application_job_config
+    retries 2
+    retry_delay 5
   end
 
   template application_job_config do
@@ -22,8 +24,8 @@ applications.each do |app|
     mode 0644
     variables({
       # :name => application_job_name,
-      :github_url => app['repo_url'],
-      :git_url => app['clone_url'],
+      :repo_url => app['repo_url'],
+      :clone_url => app['clone_url'],
       :test_command => app['test_command'],
       # :knife_search_string=> app['knife_search_string'],
       :branch => app['branch']
@@ -31,8 +33,6 @@ applications.each do |app|
     })
     notifies  :update, resources(:jenkins_job => application_job_name), :immediately
     notifies  :build, resources(:jenkins_job => application_job_name), :immediately
-    retries 1
-    retry_delay 5
   end
 
 end
