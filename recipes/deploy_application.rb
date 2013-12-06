@@ -4,7 +4,7 @@ applications = search(:applications, "*:*")
 
 applications.each do |app|
 
-  application_job_name = app['id']
+  application_job_name = "app-#{app['id']}"
 
   Chef::Log.info "creating application_deploy job for #{application_job_name}"
 
