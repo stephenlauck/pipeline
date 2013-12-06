@@ -38,6 +38,8 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
+      <command>export PATH="/opt/chef/embedded/bin:$PATH"</command>
+      <command>bundle</command>
       <command><%= @test_command %></command>
     </hudson.tasks.Shell>
   </builders>
