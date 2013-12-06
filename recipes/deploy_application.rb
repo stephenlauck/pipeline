@@ -1,8 +1,13 @@
-
 env = node.chef_environment
 
+if Chef::Config[:solo]
+  applications = []
+  Chef::Log.warn("This recipe uses search. Chef Solo does not support search.")
+else
+  applications = search(:applications, "*:*") 
+end
 
-search(:applications, "*:*") do |application|
+applications.each do |application|
 
   application_job_name = application.id
 
