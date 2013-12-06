@@ -26,8 +26,8 @@ applications.each do |app|
       # :name => application_job_name,
       :repo_url => app['repo_url'],
       :clone_url => app['clone_url'],
-      :test_command => app['test_command'],
-      # :knife_search_string=> app['knife_search_string'],
+      # :test_command => app['test_command'],
+      :knife_search_string=> app['knife_search_string'],
       :branch => app['branch']
       # :environment=> env
     })
