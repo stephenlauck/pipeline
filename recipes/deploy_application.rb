@@ -31,8 +31,8 @@ applications.each do |application|
       :clone_url => application['clone_url'],
       :test_command => application['test_command'],
       :knife_search_string=> application['knife_search_string'],
-      :branch => application['branch'],
-      :environment=> env
+      :branch => application['branch']
+      # :environment=> env
     })
     notifies  :update, resources(:jenkins_job => application_job_name), :immediately
     notifies  :build, resources(:jenkins_job => application_job_name), :immediately
