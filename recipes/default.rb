@@ -30,6 +30,7 @@ include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
 %w[
   pipeline::jenkins
   pipeline::berkshelf
+  pipeline::spiceweasel
   pipeline::knife
   pipeline::foodcritic
   pipeline::deploy_application
