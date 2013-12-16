@@ -1,6 +1,8 @@
 default['jenkins']['server']['plugins']                      = %w{scm-api git git-client github-api github}
 default['jenkins']['http_proxy']['server_auth_method']       = 'basic'
 
+default['nginx']['default_site_enabled']   		     = false
+
 default['authorization']['sudo']['include_sudoers_d']        = true
 
 default['pipeline']['chef_server']['url']                    = "CHEF_SERVER_URL"
