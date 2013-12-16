@@ -21,12 +21,17 @@
 # limitations under the License.
 #
 
-# install some depends
-%w{libxslt-dev libxml2-dev}.each do |pkg|
+case node['platform']
+when 'redhat', 'centos', 'scientific', 'fedora', 'suse', 'amazon', 'oracle'
+  package 'rubygem-nokogiri'
+when 'ubuntu', 'debian'
+  # install some depends
+  %w{libxslt-dev libxml2-dev}.each do |pkg|
     package pkg
-end
-# install berkshelf gem
-gem_package "foodcritic" do
-  gem_binary("/opt/chef/embedded/bin/gem")
-  version "3.0.3"
+  end
+  # install berkshelf gem
+  gem_package "foodcritic" do
+    gem_binary("/opt/chef/embedded/bin/gem")
+    version "3.0.3"
+  end
 end
