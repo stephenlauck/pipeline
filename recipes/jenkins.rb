@@ -37,8 +37,8 @@ include_recipe "jenkins::proxy"
 sudo 'jenkins' do
   user      "jenkins"
   nopasswd  true
-  commands  ['/usr/bin/chef-client']
   template "jenkins.erb"
+  variables   :cmds =>  ['/usr/bin/chef-client']
 end
 
 nginx_site 'default' do

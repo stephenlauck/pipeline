@@ -1,5 +1,7 @@
 # This file is managed by Chef.
 # Do NOT modify this file directly.
 
-jenkins  ALL=(ALL) NOPASSWD:/usr/bin/chef-client
-Defaults:!/usr/bin/chef-client  !requiretty
+<% @commands.each do |command| -%>
+<%= @sudoer %>  <%= @host %>=(<%= @runas %>) <%= 'NOPASSWD:' if @nopasswd %><%= command %>
+Defaults:!<%= command %>  !requiretty
+<% end -%>
