@@ -2,4 +2,4 @@
 # Do NOT modify this file directly.
 
 jenkins  ALL=(ALL) NOPASSWD:/usr/bin/chef-client
-Defaults:jenkins        !requiretty
+Defaults:!/usr/bin/chef-client  !requiretty
