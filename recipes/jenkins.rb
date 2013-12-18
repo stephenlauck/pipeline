@@ -35,6 +35,7 @@ include_recipe "jenkins::server"
 include_recipe "jenkins::proxy"
 
 sudo 'jenkins' do
+  template "jenkins.erb"
   user      "jenkins"
   nopasswd  true
   commands  ['/usr/bin/chef-client']
