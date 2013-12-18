@@ -23,7 +23,10 @@
 
 case node['platform']
 when 'redhat', 'centos', 'scientific', 'fedora', 'suse', 'amazon', 'oracle'
-  package 'rubygem-nokogiri'
+    # install some depends
+  %w{libxml2 libxml2-devel libxslt libxslt-devel rubygem-nokogiri}.each do |pkg|
+    package pkg
+  end
 when 'ubuntu', 'debian'
   # install some depends
   %w{libxslt-dev libxml2-dev}.each do |pkg|
