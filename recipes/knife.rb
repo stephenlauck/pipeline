@@ -24,7 +24,7 @@ end
 # write out chef server keys via attribute set by wrapper cookbook #
 ####################################################################
 # user.pem
-file "#{node['jenkins']['server']['home']}/.chef/#{node['jenkins']['server']['user']}.pem" do
+file "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['node_name']}.pem" do
   content node['pipeline']['chef_server']['client_key']
   owner node['jenkins']['server']['user']
   group node['jenkins']['server']['user']
@@ -50,8 +50,8 @@ template "#{node['jenkins']['server']['home']}/.chef/knife.rb" do
     :chef_server_url        => node['pipeline']['chef_server']['url'],
     :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
     :validation_key_path    => "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['validation_client_name']}.pem",
-    :client_key_path        => "#{node['jenkins']['server']['home']}/.chef/#{node['jenkins']['server']['user']}.pem",
-    :chef_node_name         => node['jenkins']['server']['user'],
+    :client_key_path        => "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['node_name']}.pem",
+    :chef_node_name         => node['pipeline']['chef_server']['node_name'],
     :providers              => node['pipeline']['knife']['providers']
   )
 end
