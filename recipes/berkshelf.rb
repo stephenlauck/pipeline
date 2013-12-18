@@ -21,6 +21,7 @@
 # limitations under the License.
 #
 
+
 gem_package "berkshelf" do
   gem_binary("/opt/chef/embedded/bin/gem")
   version "2.0.10"
@@ -100,38 +101,36 @@ template berkshelf_job_config do
 end
 
   begin
-    # /var/lib/jenkins/jobs/berkshelf/workspace
-    berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
+    Chef::Log.info "Creating Berkfile Jenkins Job."
 
-    # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
-    berksfile.each_line do |line|
-      # ^cookbook\s+['|"](.*)['|"],\s+git:\s+['|"](.*)['|"]$
-      if line =~ /cookbook '(.*)',\s+git:\s+'(.*)'/
-        cookbook = $1
-        cookbook_url = $2.split(',').first
+    berksfile = BerkDSL.new("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
 
-        Chef::Log.info("#{$1} at #{$2}")
-        ## create cookbook job for each matching cookbook
-        cookbook_job = "cookbook-#{cookbook}"
-        cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
+    Chef::Log.info("groups\s #{berksfile.inspect}")
 
-        jenkins_job cookbook_job do
-          action :nothing
-          config cookbook_job_config
-        end
+    groups_to_test = node['pipeline']['groups_to_test'] 
 
-        template cookbook_job_config do
-          source    'cookbook-config.xml.erb'
-          owner node['jenkins']['server']['user']
-          group node['jenkins']['server']['user']
-          mode 0644
-          variables({
-            :git_url => cookbook_url,
-            :branch => '*/master'
-          })
-          notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-          notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
-        end
+    berksfile.groups[groups_to_test].cookbooks.each do | cookbook |
+
+      cookbook_job        = cookbook.label
+      cookbook_url        = cookbook.options[:git]
+      cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
+
+      jenkins_job cookbook_job do
+        action :nothing
+        config cookbook_job_config
+      end
+
+      template cookbook_job_config do
+        source    'cookbook-config.xml.erb'
+        owner node['jenkins']['server']['user']
+        group node['jenkins']['server']['user']
+        mode 0644
+        variables({
+          :git_url => cookbook_url,
+          :branch => cookbook.options[:branch] || '*/master'
+        })
+        notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
+        notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
       end
     end
   rescue Exception => e
