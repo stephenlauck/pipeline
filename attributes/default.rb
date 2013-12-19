@@ -21,6 +21,7 @@ default['pipeline']['spiceweasel']['yml_file']                = "infrastructure.
 
 default['pipeline']['chef-zero']                             = false
 
+default['pipeline']['groups_to_watch']                           = [] 
 
 default['pipeline']['knife']['plugins']                      = %w[ knife-ec2 ]
 

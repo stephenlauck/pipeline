@@ -21,6 +21,7 @@
 # limitations under the License.
 #
 
+
 gem_package "berkshelf" do
   gem_binary("/opt/chef/embedded/bin/gem")
   version "2.0.10"
@@ -100,19 +101,21 @@ template berkshelf_job_config do
 end
 
   begin
-    # /var/lib/jenkins/jobs/berkshelf/workspace
-    berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
+    Chef::Log.info "Creating Berkfile Jenkins Job."
 
-    # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
-    berksfile.each_line do |line|
-      # ^cookbook\s+['|"](.*)['|"],\s+git:\s+['|"](.*)['|"]$
-      if line =~ /cookbook '(.*)',\s+git:\s+'(.*)'/
-        cookbook = $1
-        cookbook_url = $2.split(',').first
+    berksfile = BerkDSL.new("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
 
-        Chef::Log.info("#{$1} at #{$2}")
-        ## create cookbook job for each matching cookbook
-        cookbook_job = "cookbook-#{cookbook}"
+    groups_to_watch = node['pipeline']['groups_to_watch']
+
+    Chef::Log.info 'No Groups in Berkfile' unless groups_to_watch.any?
+
+    groups_off_berksfile = berksfile.groups.select { | group | groups_to_watch.include? group } 
+
+    groups_off_berksfile.values.each do | group |
+
+      group.cookbooks.each do | cookbook |
+        cookbook_job        = cookbook.label
+        cookbook_url        = cookbook.options[:git]
         cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
 
         jenkins_job cookbook_job do
@@ -127,7 +130,7 @@ end
           mode 0644
           variables({
             :git_url => cookbook_url,
-            :branch => '*/master'
+            :branch => cookbook.options[:branch] || '*/master'
           })
           notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
           notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
@@ -137,7 +140,6 @@ end
   rescue Exception => e
      Chef::Log.info("Error reading Berksfile: #{e.message}")
   end 
-
 
 
 
