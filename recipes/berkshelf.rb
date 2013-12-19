@@ -106,11 +106,11 @@ end
     # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
     berksfile.each_line do |line|
       # ^cookbook\s+['|"](.*)['|"],\s+git:\s+['|"](.*)['|"]$
-      if line =~ /cookbook '(.*)',\s+git:\s+'(.*)'/
-        cookbook = $1
-        cookbook_url = $2.split(',').first
+      if line =~ /cookbook (['"])(.*)\1,\s+git:\s+(['"])([^,]*)\3/
+        cookbook = $2
+        cookbook_url = $4
 
-        Chef::Log.info("#{$1} at #{$2}")
+        Chef::Log.info("#{$2} at #{$4}")
         ## create cookbook job for each matching cookbook
         cookbook_job = "cookbook-#{cookbook}"
         cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
