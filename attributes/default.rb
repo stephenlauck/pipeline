@@ -19,7 +19,7 @@ default['pipeline']['spiceweasel']['yml_file']                = "infrastructure.
 
 default['pipeline']['chef-zero']                             = false
 
-node['pipeline']['groups_to_test']                           = 'sml' ## this should eventually be an array?
+default['pipeline']['groups_to_watch']                           = [] 
 
 default['pipeline']['knife']['plugins']                      = %w[ knife-ec2 ]
 

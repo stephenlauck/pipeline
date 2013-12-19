@@ -105,38 +105,41 @@ end
 
     berksfile = BerkDSL.new("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
 
-    Chef::Log.info("groups\s #{berksfile.inspect}")
+    groups_to_watch = node['pipeline']['groups_to_watch']
 
-    groups_to_test = node['pipeline']['groups_to_test'] 
+    Chef::Log.info 'No Groups in Berkfile' unless groups_to_watch.any?
 
-    berksfile.groups[groups_to_test].cookbooks.each do | cookbook |
+    groups_off_berksfile = berksfile.groups.select { | group | groups_to_watch.include? group } 
 
-      cookbook_job        = cookbook.label
-      cookbook_url        = cookbook.options[:git]
-      cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
+    groups_off_berksfile.values.each do | group |
 
-      jenkins_job cookbook_job do
-        action :nothing
-        config cookbook_job_config
-      end
+      group.cookbooks.each do | cookbook |
+        cookbook_job        = cookbook.label
+        cookbook_url        = cookbook.options[:git]
+        cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
 
-      template cookbook_job_config do
-        source    'cookbook-config.xml.erb'
-        owner node['jenkins']['server']['user']
-        group node['jenkins']['server']['user']
-        mode 0644
-        variables({
-          :git_url => cookbook_url,
-          :branch => cookbook.options[:branch] || '*/master'
-        })
-        notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-        notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
+        jenkins_job cookbook_job do
+          action :nothing
+          config cookbook_job_config
+        end
+
+        template cookbook_job_config do
+          source    'cookbook-config.xml.erb'
+          owner node['jenkins']['server']['user']
+          group node['jenkins']['server']['user']
+          mode 0644
+          variables({
+            :git_url => cookbook_url,
+            :branch => cookbook.options[:branch] || '*/master'
+          })
+          notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
+          notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
+        end
       end
     end
   rescue Exception => e
      Chef::Log.info("Error reading Berksfile: #{e.message}")
   end 
-
 
 
 
