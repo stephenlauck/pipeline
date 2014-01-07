@@ -127,7 +127,10 @@ end
           mode 0644
           variables({
             :git_url => cookbook_url,
-            :branch => '*/master'
+            :branch => '*/master',
+            :partials => {
+              "berks_commands.erb" => node['pipeline']['berkshelf']['command_partial_template']
+            }
           })
           notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
           notifies  :build, resources(:jenkins_job => cookbook_job), :immediately

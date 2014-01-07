@@ -36,13 +36,9 @@
       <command>
 export PATH="/opt/chef/embedded/bin:$PATH"
 /opt/chef/embedded/bin/foodcritic -f correctness .
-if [ -f Berksfile.lock ];
-then
-   /opt/chef/embedded/bin/berks update -c /var/lib/jenkins/.berkshelf/config.json
-else
-   /opt/chef/embedded/bin/berks install -c /var/lib/jenkins/.berkshelf/config.json
-fi
-/opt/chef/embedded/bin/berks upload -c /var/lib/jenkins/.berkshelf/config.json
+<% @partials.each do |partial, cookbook| %>
+<%= render partial, :cookbook => cookbook %>
+<% end %>
       </command>
     </hudson.tasks.Shell>
   </builders>

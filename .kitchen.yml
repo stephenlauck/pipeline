@@ -15,3 +15,7 @@ suites:
     run_list:
       - recipe[pipeline::default]
     attributes:
+  - name: berkshelf
+    run_list:
+      - recipe[pipeline::berkshelf]
+    attributes:
