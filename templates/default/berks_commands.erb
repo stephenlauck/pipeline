@@ -1,0 +1,7 @@
+if [ -f Berksfile.lock ];
+then
+   /opt/chef/embedded/bin/berks update -c /var/lib/jenkins/.berkshelf/config.json
+else
+   /opt/chef/embedded/bin/berks install -c /var/lib/jenkins/.berkshelf/config.json
+fi
+/opt/chef/embedded/bin/berks upload -c /var/lib/jenkins/.berkshelf/config.json
