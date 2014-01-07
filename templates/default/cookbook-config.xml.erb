@@ -34,8 +34,6 @@
   <builders>
     <hudson.tasks.Shell>
       <command>
-export PATH="/opt/chef/embedded/bin:$PATH"
-/opt/chef/embedded/bin/foodcritic -f correctness .
 <% @partials.each do |partial, cookbook| %>
 <%= render partial, :cookbook => cookbook %>
 <% end %>
