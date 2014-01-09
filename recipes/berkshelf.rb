@@ -93,7 +93,10 @@ template berkshelf_job_config do
   variables({
     :github_url => node['pipeline']['berkshelf']['repo_url'],
     :git_url => node['pipeline']['berkshelf']['clone_url'],
-    :branch => node['pipeline']['berkshelf']['branch']
+    :branch => node['pipeline']['berkshelf']['branch'],
+    :partials => {
+      "berksfile_commands.erb" => node['pipeline']['berkshelf']['command_partial_template']
+    }
   })
   notifies  :build, resources(:jenkins_job => berkshelf_job_name), :immediately
   notifies  :update, resources(:jenkins_job => berkshelf_job_name), :immediately

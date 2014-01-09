@@ -38,7 +38,11 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>sudo chef-client</command>
+      <command>
+<% @partials.each do |partial, cookbook| %>
+<%= render partial, :cookbook => cookbook %>
+<% end %>
+      </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
