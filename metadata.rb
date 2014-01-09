@@ -4,7 +4,7 @@ maintainer_email "lauck@opscode.com"
 license          'All rights reserved'
 description      'Installs/Configures pipeline'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.8'
+version          '1.0.9'
 
 depends 'apt'
 depends 'build-essential'
