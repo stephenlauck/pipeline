@@ -17,6 +17,7 @@ default['pipeline']['berkshelf']['clone_url']                 = "GIT_CLONE_URL_F
 default['pipeline']['berkshelf']['branch']                    = "*/master"
 # use the commands partial from cookbook
 default['pipeline']['berkshelf']['command_partial_template']  = "pipeline"
+default['pipeline']['berkshelf']['gem_version']               = "2.0.12"
 
 
 default['pipeline']['spiceweasel']['repo_url']                = "GITHUB_URL_TO_SPICEWEASEL"

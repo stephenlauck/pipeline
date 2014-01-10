@@ -23,7 +23,7 @@
 
 gem_package "berkshelf" do
   gem_binary("/opt/chef/embedded/bin/gem")
-  version "2.0.12"
+  version node['pipeline']['berkshelf']['gem_version']
 end
 
 # create berkshelf
