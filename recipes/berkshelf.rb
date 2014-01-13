@@ -131,6 +131,7 @@ end
           variables({
             :git_url => cookbook_url,
             :branch => '*/master',
+            :cookbook => cookbook,
             :partials => {
               "job_commands.erb" => node['pipeline']['berkshelf']['command_partial_template']
             }

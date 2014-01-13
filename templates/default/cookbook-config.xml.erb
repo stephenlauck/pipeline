@@ -31,6 +31,7 @@
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
+  <customWorkspace>$JENKINS_HOME/jobs/$JOB_NAME/<%= @cookbook %></customWorkspace>
   <builders>
     <hudson.tasks.Shell>
       <command>
