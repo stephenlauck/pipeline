@@ -2,6 +2,11 @@ pipeline Cookbook CHANGELOG
 ======================
 This file is used to list changes made in each version of the pipeline cookbook.
 
+v1.1.0
+------
+* pin dependent cookbook versions
+* job commands as partials
+
 v1.0.0
 ------
 * broke out recipes from default into berkshelf, jenkins, jobs
