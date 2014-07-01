@@ -30,7 +30,6 @@ directory "create_berkshelf_directory" do
   mode 0755
 end
 
-# override fingerprint rsa for convergence? Security ok?
 file "#{node['jenkins']['master']['home']}/.berkshelf/config.json" do
  content <<-EOD
    {"ssl":{"verify": false }}
