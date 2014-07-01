@@ -3,8 +3,6 @@ driver:
   name: vagrant
 
 driver_config:
-  network:
-  - ["forwarded_port", {guest: 8080, host: 8080}]
   customize:
     memory: 2048
     cpus: 2
@@ -14,13 +12,19 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
+    run_list:
+    - recipe[apt]
+    network:
+    - ["private_network", {ip: "33.33.33.1"}]
+    - ["forwarded_port", {guest: 8080, host: 8080}]
   - name: centos-6.5
+    run_list:
+    - recipe[yum]
+    network:
+    - ["private_network", {ip: "33.33.33.2"}]
+    - ["forwarded_port", {guest: 8080, host: 8081}]
 
 suites:
-  - name: default
-    run_list:
-      - recipe[pipeline]
-    attributes:
   - name: jenkins
     run_list:
       - recipe[pipeline::jenkins]
@@ -28,3 +32,5 @@ suites:
       - recipe[pipeline::knife]
       - recipe[pipeline::berkshelf]
     attributes:
+      chef-zero:
+        start: true
