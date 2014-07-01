@@ -1,0 +1,10 @@
+export PATH="/opt/chef/embedded/bin:$PATH"
+
+if [ -f Berksfile.lock ];
+  then
+    berks update
+  else
+    berks install
+fi
+
+berks upload
