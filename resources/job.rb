@@ -6,3 +6,5 @@ attribute :git_url, :default => nil, :kind_of => String, :required => true
 attribute :branch, :default => "*/master", :kind_of => String
 attribute :polling, :default => "* * * * *", :kind_of => String 
 attribute :build_command, :default => nil, :kind_of => String, :required => true
+attribute :http_proxy, :default => nil, :kind_of => String
+attribute :https_proxy, :default => nil, :kind_of => String
