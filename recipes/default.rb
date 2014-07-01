@@ -21,18 +21,11 @@
 # limitations under the License.
 #
 
-include_recipe "apt"
-include_recipe "git"
-include_recipe 'build-essential'
-
-include_recipe 'pipeline::chef-zero' if node['pipeline']['chef-zero']
-
 %w[
   pipeline::jenkins
-  pipeline::berkshelf
-  pipeline::spiceweasel
+  chef-zero
   pipeline::knife
-  pipeline::foodcritic
+  pipeline::berkshelf
 ].each { |recipe_name| include_recipe recipe_name }
 
 
