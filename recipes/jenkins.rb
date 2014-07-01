@@ -31,3 +31,9 @@ node['pipeline']['jenkins']['plugins'].each do |p|
     notifies :execute, "jenkins_command[safe-restart]", :delayed
   end
 end
+
+sudo 'jenkins' do
+  user      "jenkins"
+  nopasswd  true
+  commands  ['/usr/bin/chef-client']
+end
