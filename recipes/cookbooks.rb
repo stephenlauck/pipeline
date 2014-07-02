@@ -9,9 +9,16 @@ end
 begin
   berksfile = Berkshelf::Berksfile.from_file("#{node['jenkins']['master']['home']}/jobs/chef-repo/workspace/Berksfile")
   
-  berksfile.install
+  Chef::Log.info("running install on Berksfile...")
+  
+  begin
+    berksfile.update
+  rescue
+    berksfile.install
+  end
   
   berksfile.list.reject{|c| c.location == nil}.each do |cookbook|
+    Chef::Log.info(cookbook.location.to_s)
     pipeline_job cookbook.name do
       git_url cookbook.location.uri
       build_command '_cookbook_command.sh.erb'
