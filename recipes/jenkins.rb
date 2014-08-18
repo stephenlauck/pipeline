@@ -21,6 +21,8 @@
 include_recipe "jenkins::java"
 include_recipe "jenkins::master"
 
+user 'jenkins'
+
 jenkins_command 'safe-restart' do
   action :nothing
 end
