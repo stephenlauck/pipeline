@@ -27,6 +27,7 @@ suites:
       - recipe[git]
       - recipe[build-essential]
       - recipe[emacs]
+      - recipe[resolver]
       - recipe[pipeline::jenkins]
       - recipe[chef-zero]
       - recipe[pipeline::knife]
@@ -37,3 +38,7 @@ suites:
         start: true
       build-essential:
         compile_time: true
+      resolver:
+        nameservers:
+          - '8.8.8.8'
+          - '8.8.4.4'
