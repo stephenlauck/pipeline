@@ -9,9 +9,7 @@ action :create do
         :git_url => new_resource.git_url,
         :branch => new_resource.branch,
         :polling => new_resource.polling,
-        :build_command => new_resource.build_command,
-        :http_proxy => new_resource.http_proxy,
-        :https_proxy => new_resource.https_proxy
+        :build_command => new_resource.build_command
       )
   end
  
