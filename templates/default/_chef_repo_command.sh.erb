@@ -1,19 +1,11 @@
 export PATH="/opt/chef/embedded/bin:$PATH"
 
-<% if @https_proxy %>
-export https_proxy=http://<%= @https_proxy %>
-<% end %>
-
 if [ -f Berksfile.lock ];
   then
     berks update --only=<%= node['pipeline']['berkshelf']['external']['group'] %>
   else
     berks install --only=<%= node['pipeline']['berkshelf']['external']['group'] %>
 fi
-
-<% if @https_proxy %>
-unset https_proxy
-<% end %>
 
 berks upload --only=<%= node['pipeline']['berkshelf']['external']['group'] %>
 
