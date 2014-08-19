@@ -3,8 +3,6 @@ driver:
   name: vagrant
 
 driver_config:
-  network:
-  - ["forwarded_port", {guest: 8080, host: 8080}]
   customize:
     memory: 2048
     cpus: 2
@@ -16,6 +14,8 @@ platforms:
   - name: ubuntu-12.04
     run_list:
       - recipe[apt]
+    network:
+    - ["forwarded_port", {guest: 8080, host: 8080}]
   - name: centos-6.5
     run_list:
       - recipe[yum]

@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "build-essential"
+
 chef_gem "berkshelf" do
   action :install
 end

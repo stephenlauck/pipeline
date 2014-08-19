@@ -21,6 +21,11 @@
 include_recipe "jenkins::java"
 include_recipe "jenkins::master"
 
+user node['jenkins']['master']['user'] do
+  home node['jenkins']['master']['home']
+  shell "/bin/bash"
+end
+
 jenkins_command 'safe-restart' do
   action :nothing
 end
