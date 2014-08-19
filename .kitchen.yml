@@ -26,6 +26,7 @@ suites:
   - name: jenkins
     run_list:
       - recipe[git]
+      - recipe[build-essential]
       - recipe[emacs]
       - recipe[pipeline::jenkins]
       - recipe[chef-zero]
@@ -35,3 +36,5 @@ suites:
     attributes:
       chef-zero:
         start: true
+      build-essential:
+        compile_time: true
