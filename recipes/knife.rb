@@ -1,60 +1,47 @@
-### 
 #
-# 1 - write out knife.rb
-# 2 - use chef server information to write file
-# 3 - abort if new chef-server information
+# Cookbook Name:: pipeline
+# Recipe:: knife
 #
+# Copyright 2014, Stephen Lauck <lauck@getchef.com>
+# Copyright 2014, Chef, Inc.
 #
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# added knife plugins
-node['pipeline']['knife']['plugins'].each { | plugin |
-  gem_package plugin do
-    gem_binary("/opt/chef/embedded/bin/gem")
-  end
-}
-
-# create berkshelf
-directory "#{node['jenkins']['server']['home']}/.chef" do
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
+directory "#{node['jenkins']['master']['home']}/.chef" do
+  owner node['jenkins']['master']['user']
+  group node['jenkins']['master']['user']
   mode 0755
 end
 
-####################################################################
-# write out chef server keys via attribute set by wrapper cookbook #
-####################################################################
-# user.pem
-file "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['node_name']}.pem" do
-  content node['pipeline']['chef_server']['client_key']
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
+cookbook_file "#{node['jenkins']['master']['home']}/.chef/pipeline.pem" do
+  source "pipeline.pem"
+  owner node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
   mode 0644
   action :create
 end
 
-# validation.pem
-file "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['validation_client_name']}.pem" do
-  content node['pipeline']['chef_server']['validation_key']
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  action :create
-end
-
-template "#{node['jenkins']['server']['home']}/.chef/knife.rb" do
+template "#{node['jenkins']['master']['home']}/.chef/knife.rb" do
   source "knife.rb.erb"
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
+  owner node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
   mode 0644
   variables(
-    :chef_server_url        => node['pipeline']['chef_server']['url'],
-    :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
-    :validation_key_path    => "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['validation_client_name']}.pem",
-    :client_key_path        => "#{node['jenkins']['server']['home']}/.chef/#{node['pipeline']['chef_server']['node_name']}.pem",
-    :chef_node_name         => node['pipeline']['chef_server']['node_name'],
-    :providers              => node['pipeline']['knife']['providers']
+    :chef_server_url => node['pipeline']['chef_server']['url'],
+    :client_node_name => node['pipeline']['chef_server']['node_name'],
   )
 end
+
 
 
 

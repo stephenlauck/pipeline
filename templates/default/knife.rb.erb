@@ -1,17 +1,8 @@
 current_dir = File.dirname(__FILE__)
 log_level                :info
 log_location             STDOUT
-node_name                "<%= @chef_node_name %>"
-client_key               "<%= @client_key_path %>"
-validation_client_name   "<%= @validation_client_name %>"
-validation_key           "<%= @validation_key_path %>"
+node_name                "<%= @client_node_name %>"
+client_key               "#{current_dir}/<%= @client_node_name  %>.pem"
 chef_server_url          "<%= @chef_server_url %>"
 cache_type               'BasicFile'
 cache_options( :path => "#{ENV['HOME']}/.chef/checksums" )
-cookbook_path            ["#{current_dir}/../cookbooks"]
-
-<%- @providers.each do |provider| %>
-<%- provider.each do |key, val| %>
-knife[:<%= key %>] = "<%= val %>"
-<%- end %>
-<%- end %>

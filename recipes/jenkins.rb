@@ -1,12 +1,9 @@
 #
-# Author:: Stephen Lauck <lauck@opscode.com>
-# Author:: Mauricio Silva <msilva@exacttarget.com>
-#
 # Cookbook Name:: pipeline
-# Recipe:: default
+# Recipe:: jenkins
 #
-# Copyright 2013, Exact Target
-# Copyright 2013, Opscode, Inc.
+# Copyright 2014, Stephen Lauck <lauck@getchef.com>
+# Copyright 2014, Chef, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,38 +18,27 @@
 # limitations under the License.
 #
 
+include_recipe "jenkins::java"
+include_recipe "jenkins::master"
 
-
-# create /var/run/jenkins because of https://issues.jenkins-ci.org/browse/JENKINS-20407 
-directory "/var/run/jenkins" do 
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  recursive true
+user node['jenkins']['master']['user'] do
+  home node['jenkins']['master']['home']
+  shell "/bin/bash"
 end
 
-include_recipe "jenkins::server"
-include_recipe "jenkins::proxy"
+jenkins_command 'safe-restart' do
+  action :nothing
+end
+
+node['pipeline']['jenkins']['plugins'].each do |p|
+  jenkins_plugin p do
+    action :install
+    notifies :execute, "jenkins_command[safe-restart]", :delayed
+  end
+end
 
 sudo 'jenkins' do
   user      "jenkins"
   nopasswd  true
   commands  ['/usr/bin/chef-client']
-end
-
-nginx_site 'default' do
-  enable false
-end
-
-# set jenkins node home to server home
-node.default['jenkins']['node']['home'] = node['jenkins']['server']['home']
-
-# override fingerprint rsa for convergence? Security ok?
-file "#{node['jenkins']['server']['home']}/.ssh/config" do 
- content <<-EOD
-   Host github.com
-       StrictHostKeyChecking no 
- EOD
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
 end

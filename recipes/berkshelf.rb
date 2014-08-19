@@ -1,12 +1,9 @@
 #
-# Author:: Stephen Lauck <lauck@opscode.com>
-# Author:: Mauricio Silva <msilva@exacttarget.com>
-#
 # Cookbook Name:: pipeline
-# Recipe:: default
+# Recipe:: berkshelf
 #
-# Copyright 2013, Exact Target
-# Copyright 2013, Opscode, Inc.
+# Copyright 2014, Stephen Lauck <lauck@getchef.com>
+# Copyright 2014, Chef, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,130 +18,24 @@
 # limitations under the License.
 #
 
-gem_package "berkshelf" do
-  gem_binary("/opt/chef/embedded/bin/gem")
-  version node['pipeline']['berkshelf']['gem_version']
+include_recipe "build-essential"
+
+chef_gem "berkshelf" do
+  action :install
 end
 
 # create berkshelf
-directory "#{node['jenkins']['server']['home']}/.berkshelf" do
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
+directory "create_berkshelf_directory" do
+  path "#{node['jenkins']['master']['home']}/.berkshelf"
+  owner node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
   mode 0755
 end
 
-
-####################################################################
-# write out chef server keys via attribute set by wrapper cookbook #
-####################################################################
-# user.pem
-file "#{node['jenkins']['server']['home']}/.berkshelf/#{node['pipeline']['chef_server']['node_name']}.pem" do
-  content node['pipeline']['chef_server']['client_key']
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  action :create
+file "#{node['jenkins']['master']['home']}/.berkshelf/config.json" do
+ content <<-EOD
+   {"ssl":{"verify": false }}
+ EOD
+  owner node['jenkins']['master']['user']
+  group node['jenkins']['master']['user']
 end
-
-# validation.pem
-file "#{node['jenkins']['server']['home']}/.berkshelf/#{node['pipeline']['chef_server']['validation_client_name']}.pem" do
-  content node['pipeline']['chef_server']['validation_key']
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  action :create
-end
-
-# berkshelf config
-template "#{node['jenkins']['server']['home']}/.berkshelf/config.json" do
-  source "config.json.erb"
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  variables(
-    :chef_server_url        => node['pipeline']['chef_server']['url'],
-    :validation_client_name => node['pipeline']['chef_server']['validation_client_name'],
-    :validation_key_path    => "#{node['jenkins']['server']['home']}/.berkshelf/#{node['pipeline']['chef_server']['validation_client_name']}.pem",
-    :client_key_path        => "#{node['jenkins']['server']['home']}/.berkshelf/#{node['pipeline']['chef_server']['node_name']}.pem",
-    :chef_node_name         => node['pipeline']['chef_server']['node_name']
-  )
-end
-
-##############################################################
-# create job to pull down list of cookbooks
-# and
-# iterate over cookbooks and create job per cookbook in list
-##############################################################
-
-berkshelf_job_name = "berkshelf"
-
-berkshelf_job_config = File.join(node['jenkins']['node']['home'], "#{berkshelf_job_name}-config.xml")
-
-jenkins_job berkshelf_job_name do
-  action :nothing
-  config berkshelf_job_config
-end
-
-template berkshelf_job_config do
-  source    'berksfile-config.xml.erb'
-  owner node['jenkins']['server']['user']
-  group node['jenkins']['server']['user']
-  mode 0644
-  variables({
-    :github_url => node['pipeline']['berkshelf']['repo_url'],
-    :git_url => node['pipeline']['berkshelf']['clone_url'],
-    :branch => node['pipeline']['berkshelf']['branch'],
-    :partials => {
-      "berksfile_commands.erb" => node['pipeline']['berkshelf']['command_partial_template']
-    }
-  })
-  notifies  :build, resources(:jenkins_job => berkshelf_job_name), :immediately
-  notifies  :update, resources(:jenkins_job => berkshelf_job_name), :immediately
-end
-
-  begin
-    # /var/lib/jenkins/jobs/berkshelf/workspace
-    berksfile = File.open("#{node['jenkins']['server']['home']}/jobs/#{berkshelf_job_name}/workspace/Berksfile")
-
-    # cookbook 'jenkins', git: 'git@github.com:stephenlauck/jenkins.git', branch: 'plugin_permissions_fix'
-    berksfile.each_line do |line|
-      # ^cookbook\s+['|"](.*)['|"],\s+git:\s+['|"](.*)['|"]$
-      if line =~ /cookbook (['"])(.*)\1,\s+git:\s+(['"])([^,]*)\3/
-        cookbook = $2
-        cookbook_url = $4
-
-        Chef::Log.info("#{$2} at #{$4}")
-        ## create cookbook job for each matching cookbook
-        cookbook_job = "cookbook-#{cookbook}"
-        cookbook_job_config = File.join(node['jenkins']['node']['home'], "#{cookbook_job}-config.xml")
-
-        jenkins_job cookbook_job do
-          action :nothing
-          config cookbook_job_config
-        end
-
-        template cookbook_job_config do
-          source    'cookbook-config.xml.erb'
-          owner node['jenkins']['server']['user']
-          group node['jenkins']['server']['user']
-          mode 0644
-          variables({
-            :git_url => cookbook_url,
-            :branch => '*/master',
-            :cookbook => cookbook,
-            :partials => {
-              "job_commands.erb" => node['pipeline']['berkshelf']['command_partial_template']
-            }
-          })
-          notifies  :update, resources(:jenkins_job => cookbook_job), :immediately
-          notifies  :build, resources(:jenkins_job => cookbook_job), :immediately
-        end
-      end
-    end
-  rescue Exception => e
-     Chef::Log.info("Error reading Berksfile: #{e.message}")
-  end 
-
-
-
-
