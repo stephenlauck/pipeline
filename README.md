@@ -7,6 +7,21 @@ Creates a continuous delivery pipeline using jenkins for Chef artifacts
 * Ubuntu 12.04
 * CentOS 6.5
 
+
+### Set the chef-repo attribute to pipeline a chef repo to a chef org/server
+`default['pipeline']['chef-repo']['url'] = "https://github.com/stephenlauck/pipeline_chef.git"`
+
+### list kitchen instances
+`kitchen list`
+
+### locally converge pipeline for CentOS
+`kitchen converge cent`
+
+### check Jenkins on localhost:8080
+`http://localhost:8080`
+
+
+
 Authors
 -----------------
 - Author: Stephen Lauck (<lauck@getchef.com>)
