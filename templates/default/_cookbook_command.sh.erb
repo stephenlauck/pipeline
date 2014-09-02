@@ -7,4 +7,6 @@ if [ -f Berksfile.lock ];
     berks install
 fi
 
+rubocop
+foodcritic -f correctness .
 berks upload
