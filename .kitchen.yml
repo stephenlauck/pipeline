@@ -32,6 +32,7 @@ suites:
       - recipe[chef-zero]
       - recipe[pipeline::knife]
       - recipe[pipeline::berkshelf]
+      - recipe[pipeline::lint_test]
       - recipe[pipeline::cookbooks]
     attributes:
       chef-zero:

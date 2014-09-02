@@ -8,8 +8,8 @@ Creates a continuous delivery pipeline using jenkins for Chef artifacts
 * CentOS 6.5
 
 
-### Set the chef-repo attribute to pipeline a chef repo to a chef org/server
-`default['pipeline']['chef-repo']['url'] = "https://github.com/stephenlauck/pipeline_chef.git"`
+### Set the chef-repo attribute to pipeline to a chef org/server
+`default['pipeline']['chef-repo']['url'] = "https://github.com/stephenlauck/pipeline-example-chef-repo.git"`
 
 ### list kitchen instances
 `kitchen list`
