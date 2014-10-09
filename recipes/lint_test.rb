@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-chef_gem "foodcritic" do
-  action :install
+%w{ foodcritic rubocop }.each do |linter|
+  chef_gem linter do
+    action :install
+  end
 end
