@@ -1,3 +1,6 @@
+# This cookbook has been deprecated and moved to the Chef Solutions Organization at [https://github.com/chef-solutions/pipeline](https://github.com/chef-solutions/pipeline)
+
+
 pipeline cookbook
 =================
 Continuous delivery pipeline for Chef.
@@ -16,7 +19,7 @@ The pipeline is Jenkins based and relies on a git repository of your Chef items 
 
 #### Description
 
-- **Berksfile:** 
+- **Berksfile:**
   - Contains all the cookbooks in your project.
   - Used to generate cookbook jobs for cookbooks that need testing
   - Used to upload community cookbooks that don't need testing
